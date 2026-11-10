@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blade Runner 2049 · 银翼杀手 2049</title>
+<style>
+  :root {
+    --ink:   #2a1406;   /* 深褐（正文） */
+    --ink2:  #3d1902;   /* 更深的标题色 */
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+  }
+
+  body {
+    margin: 0;
+    color: var(--ink);
+    font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing: antialiased;
+
+    /* 整页只有这一个背景：橙色迷雾（模糊版），固定不动 */
+    background: #d97a05 url(../image/br-page-bg.webp) center center / cover no-repeat fixed;
+  }
+
+  .slide {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    display: grid;
+    place-items: center;
+    padding: 7vh 7vw;
+    overflow: hidden;
+  }
+
+  /* ===== 首屏：文字和海报都直接压在背景上 ===== */
+  .hero {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: clamp(30px, 6vw, 90px);
+    padding: 8vh 8vw;
+  }
+
+  .hero-text { max-width: 640px; transform: rotate(-1deg); }
+
+  .en {
+    margin: 0;
+    font-weight: 900;
+    font-size: clamp(30px, 5.4vw, 84px);
+    line-height: 1;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--ink2);
+  }
+
+  .cn {
+    margin: 16px 0 0;
+    font-size: clamp(14px, 1.4vw, 19px);
+    font-weight: 700;
+    letter-spacing: 0.5em;
+    color: var(--ink);
+  }
+
+  /* 海报：不套衬纸，就是图片本身 */
+  .poster {
+    width: clamp(200px, 23vw, 320px);
+    transform: rotate(1.5deg);
+    box-shadow: 0 18px 40px rgba(90, 40, 0, 0.35);
+  }
+
+  .poster img { display: block; width: 100%; height: auto; }
+
+  /* ===== 文字 ===== */
+  .intro-slide p {
+    max-width: 820px;
+    margin: 0;
+    font-size: clamp(16px, 1.3vw, 19px);
+    font-weight: 500;
+    line-height: 2.25;
+    transform: rotate(-0.4deg);
+  }
+
+  .row {
+    width: 100%;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: clamp(28px, 5vw, 76px);
+  }
+
+  .row .txt { max-width: 560px; transform: rotate(-0.9deg); }
+
+  .row .txt h2 {
+    margin: 0 0 18px;
+    font-size: clamp(17px, 1.5vw, 22px);
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: var(--ink2);
+  }
+
+  .row .txt p {
+    margin: 0;
+    font-size: clamp(14px, 1.15vw, 17px);
+    font-weight: 500;
+    line-height: 2.1;
+    color: var(--ink);
+  }
+
+  /* ===== 图片：科技感角标边框（直接压在背景上） ===== */
+  .row figure {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgba(140, 225, 240, 0.55);
+    box-shadow:
+      0 0 22px rgba(120, 210, 230, 0.22),
+      0 18px 40px rgba(90, 40, 0, 0.35);
+    transform: rotate(-1.2deg);
+  }
+
+  /* 四角折角标 */
+  .row figure::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    background-image:
+      linear-gradient(#ffb347, #ffb347), linear-gradient(#ffb347, #ffb347),
+      linear-gradient(#ffb347, #ffb347), linear-gradient(#ffb347, #ffb347),
+      linear-gradient(#ffb347, #ffb347), linear-gradient(#ffb347, #ffb347),
+      linear-gradient(#ffb347, #ffb347), linear-gradient(#ffb347, #ffb347);
+    background-repeat: no-repeat;
+    background-size:
+      30px 2px, 2px 30px,
+      30px 2px, 2px 30px,
+      30px 2px, 2px 30px,
+      30px 2px, 2px 30px;
+    background-position:
+      left top, left top,
+      right top, right top,
+      left bottom, left bottom,
+      right bottom, right bottom;
+  }
+
+  /* 极淡的扫描线 */
+  .row figure::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.05) 0 1px,
+      transparent 1px 4px
+    );
+  }
+
+  .row figure img { display: block; width: 100%; height: auto; }
+
+  .row figure.small { max-width: 520px; }
+  .slide.reverse .txt { order: 2; transform: rotate(1deg); }
+  .slide.reverse figure { order: 1; transform: rotate(1.4deg); }
+
+  .stack figure + figure { margin-top: 20px; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; justify-items: start; gap: 30px; }
+    .poster { width: clamp(180px, 50vw, 260px); }
+    .row { grid-template-columns: 1fr; gap: 22px; }
+    .slide.reverse .txt,
+    .slide.reverse .stack,
+    .slide.reverse figure { order: 0; }
+    .row figure.small { max-width: 100%; }
+    .slide { padding: 6vh 6vw; }
+  }
+</style>
+</head>
+<body>
+
+  <main>
+
+    <!-- 1 首屏 -->
+    <section class="slide hero" id="s1">
+      <div class="hero-text">
+        <p class="en">Blade Runner 2049</p>
+        <p class="cn">银翼杀手 2049</p>
+      </div>
+      <div class="poster">
+        <img src="../image/br-poster.jpg" alt="银翼杀手 2049 海报">
+      </div>
+    </section>
+
+    <!-- 2 题记 -->
+    <section class="slide intro-slide" id="s2">
+      <p>
+        《银翼杀手2049》是 1982 年《银翼杀手》的续作。维伦纽瓦执导、罗杰·迪金斯掌镜、汉斯·季莫配乐，
+        拿下第 90 届奥斯卡最佳摄影与最佳视觉效果两项大奖。它继承了前作的人工智能反思与存在主义命题，
+        却用一套完全不同的视听语言，重建了一片赛博朋克废土。
+      </p>
+    </section>
+
+    <!-- 3 色彩 -->
+    <section class="slide" id="s3">
+      <div class="row">
+        <div class="txt">
+          <h2>橙黄</h2>
+          <p>
+            全片的通调是偏橙的暗黄。黄色是 2049 年地球末世的太阳与荒漠；更重要的是，
+            每一次黄色出现，都代表 K 获得新的信息：门廊的黄灯、树下的小黄花、Wallace 总部的阳光、
+            拉斯维加斯漫天的橙色迷雾。色彩在这里不只是气氛，它是叙事的线索。另一种反复出现的颜色是绿色：
+            Sapper 的种植场、Joi 的界面、K 的绿色夹克、DNA 库，都标记着 Wallace 公司的产品身份；
+            唯有 Ana 博士造出那片翠绿森林，是真正的生命色。
+          </p>
+        </div>
+        <figure>
+          <img src="../image/br-orange.jpg" alt="橙色迷雾中行走的人影">
+        </figure>
+      </div>
+    </section>
+
+    <!-- 4 光影 -->
+    <section class="slide reverse" id="s4">
+      <div class="row">
+        <div class="txt">
+          <h2>割裂</h2>
+          <p>
+            迪金斯的光影关键词是“割裂”。Wallace 公司墙上流动的焦散水纹、忽明忽暗如水流转的光线，
+            以及大量逆光剪影——K 与 Sapper 对话时，一个隐于黑暗、一个暴露在光里，结局已经写在光里。
+            焦散的水纹在 Luv 脸上流动，暗示她既是奴隶又握有权力的割裂处境。
+            而玻璃罩内外的镜像，又把真实与虚幻的边界搅在一起。
+          </p>
+        </div>
+        <figure>
+          <img src="../image/br-joi.webp" alt="霓虹中的巨型全息投影与 K 的背影">
+        </figure>
+      </div>
+    </section>
+
+    <!-- 5 镜头 -->
+    <section class="slide" id="s5">
+      <div class="row">
+        <div class="txt">
+          <h2>辽阔</h2>
+          <p>
+            迪金斯偏爱广角与两极镜头：眼球的大特写剪到太阳能田的大远景，一眼一世界。
+            干净空旷的构图让角色在巨大的世界里格外孤独——K、Joi、Deckard，甚至 Wallace，
+            每个人都在孤独中追寻自己是谁。
+          </p>
+        </div>
+        <div class="stack">
+          <figure class="small">
+            <img src="../image/br-tree.webp" alt="枯树旁的 K 与飞行器">
+          </figure>
+          <figure class="small">
+            <img src="../image/br-ruins.webp" alt="废墟中的车与身影">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 眼睛 -->
+    <section class="slide reverse" id="s6">
+      <div class="row">
+        <div class="txt">
+          <h2>眼睛</h2>
+          <p>
+            眼睛是全片的核心意象。判断复制人的型号要看眼球上的序列号；Luv 用死者的眼睛打开系统；
+            Wallace 双目失明，却拥有无数只电子眼睛。集权者的眼睛用来窥视，反抗者的眼睛用来追寻。
+          </p>
+        </div>
+        <figure>
+          <img src="../image/br-eye.webp" alt="复制人眼睛的极特写">
+        </figure>
+      </div>
+    </section>
+
+    <!-- 7 声音 -->
+    <section class="slide" id="s7">
+      <div class="row">
+        <div class="txt">
+          <h2>雪</h2>
+          <p>
+            季莫用合成器与谢泼德音调制造持续上升的紧张，几乎没有完整旋律。直到结尾，
+            K 躺在雪地里，前作的《Tears in the Rain》响起——“所有这些时刻，终将流失在时光中，
+            一如眼泪消失在雨中。”真实与虚拟早已模糊，肉体终将消亡，唯有灵魂能够永存——在橙色迷雾与斑驳光影里。
+          </p>
+        </div>
+        <figure>
+          <img src="../image/br-snow.webp" alt="雪地台阶上躺下的 K">
+        </figure>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    (function () {
+      var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+      var last = slides.length - 1;
+      var lock = false;
+
+      function index() {
+        var cur = 0;
+        slides.forEach(function (s, i) {
+          if (s.offsetTop <= window.scrollY + 10) cur = i;
+        });
+        return cur;
+      }
+
+      function goTo(i) { slides[i].scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+
+      function step(dir) {
+        if (lock) return;
+        var next = index() + dir;
+        if (next > last) next = 0;
+        if (next < 0) next = last;
+        lock = true;
+        goTo(next);
+        setTimeout(function () { lock = false; }, 800);
+      }
+
+      document.addEventListener('click', function (e) {
+        if (e.target.closest('a')) return;
+        if (String(window.getSelection()).length > 0) return;
+        step(1);
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+          e.preventDefault(); step(1);
+        } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+          e.preventDefault(); step(-1);
+        }
+      });
+
+      window.addEventListener('wheel', function (e) {
+        if (lock) return;
+        var atTop = window.scrollY <= 2;
+        var atEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+        if (e.deltaY > 0 && atEnd) {
+          lock = true; goTo(0); setTimeout(function () { lock = false; }, 800);
+        } else if (e.deltaY < 0 && atTop) {
+          lock = true; goTo(last); setTimeout(function () { lock = false; }, 800);
+        }
+      }, { passive: true });
+    })();
+  </script>
+
+</body>
+</html>

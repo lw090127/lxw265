@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>致愈电影小屋</title>
+<style>
+  * { box-sizing: border-box; }
+
+  html, body { height: 100%; }
+
+  body {
+    margin: 0;
+    font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    color: #f7f0e0;
+    -webkit-font-smoothing: antialiased;
+
+    /* 整页就是这张帆船画，固定不动 */
+    background: #0b1a22 url(image/myweb-bg.jpg) center center / cover no-repeat fixed;
+  }
+
+  /* ===== 站名 ===== */
+  .site-head {
+    position: absolute;
+    top: 9vh;
+    left: 8vw;
+    z-index: 2;
+    transform: rotate(-1deg);
+  }
+
+  .site-head h1 {
+    margin: 0;
+    font-size: clamp(26px, 3.4vw, 46px);
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-shadow: 0 3px 18px rgba(4, 18, 26, 0.6);
+  }
+
+  /* ===== 电影长条 ===== */
+  /* 长条散落在画面上，不排队 */
+  .menu {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .bar:nth-child(1) { left: 7%;  top: 60%; --r: -6deg;  font-size: .95em; }
+  .bar:nth-child(2) { left: 44%; top: 74%; --r: 4deg;   font-size: 1em; }
+  .bar:nth-child(3) { left: 56%; top: 17%; --r: -3deg;  font-size: 1.05em; }
+  .bar:nth-child(4) { left: 24%; top: 27%; --r: 6deg;   font-size: .95em; }
+
+  .bar {
+    position: absolute;
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 15px 22px;
+    white-space: nowrap;
+    text-decoration: none;
+    color: #f7f0e0;
+    border: 1px solid rgba(247, 240, 224, 0.45);
+    background: rgba(8, 22, 30, 0.28);
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+    box-shadow: 0 14px 30px rgba(4, 18, 26, 0.28);
+    transform: rotate(var(--r, -1deg));
+    transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease;
+  }
+
+  .bar .en {
+    font-size: clamp(15px, 1.5vw, 20px);
+    font-weight: 900;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    text-shadow: 0 2px 10px rgba(4, 18, 26, 0.55);
+  }
+
+  .bar .cn {
+    font-size: clamp(12px, 1.1vw, 15px);
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    opacity: 0.9;
+    white-space: nowrap;
+  }
+
+  /* 四角折角标 */
+  .bar::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    background-image:
+      linear-gradient(#ffd28a, #ffd28a), linear-gradient(#ffd28a, #ffd28a),
+      linear-gradient(#ffd28a, #ffd28a), linear-gradient(#ffd28a, #ffd28a),
+      linear-gradient(#ffd28a, #ffd28a), linear-gradient(#ffd28a, #ffd28a),
+      linear-gradient(#ffd28a, #ffd28a), linear-gradient(#ffd28a, #ffd28a);
+    background-repeat: no-repeat;
+    background-size:
+      22px 1.5px, 1.5px 22px,
+      22px 1.5px, 1.5px 22px,
+      22px 1.5px, 1.5px 22px,
+      22px 1.5px, 1.5px 22px;
+    background-position:
+      left top, left top,
+      right top, right top,
+      left bottom, left bottom,
+      right bottom, right bottom;
+    opacity: .85;
+    transition: opacity .25s ease;
+  }
+
+  .bar:hover {
+    border-color: rgba(255, 210, 138, 0.95);
+    box-shadow: 0 18px 40px rgba(4, 18, 26, 0.35), 0 0 26px rgba(255, 210, 138, 0.28);
+    transform: rotate(0deg) translateY(-6px) scale(1.03);
+  }
+
+  .bar:hover::after { opacity: 1; }
+
+  /* 窄屏：站名在上，长条在下 */
+  @media (max-width: 860px) {
+    .site-head { position: static; padding: 9vh 7vw 0; }
+    .menu {
+      position: static;
+      inset: auto;
+      padding: 5vh 7vw 8vh;
+      display: grid;
+      gap: 14px;
+      pointer-events: auto;
+    }
+    .bar,
+    .bar:nth-child(1), .bar:nth-child(2), .bar:nth-child(3), .bar:nth-child(4) {
+      position: static;
+      display: flex;
+      justify-content: space-between;
+      transform: none;
+      --r: 0deg;
+    }
+    .bar:hover { transform: none; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="site-head">
+    <h1>致愈电影小屋</h1>
+  </header>
+
+  <nav class="menu">
+
+    <a class="bar" href="web/detachment.html">
+      <span class="en">Detachment</span>
+      <span class="cn">超脱</span>
+    </a>
+
+    <a class="bar" href="web/manchester.html">
+      <span class="en">Manchester by the Sea</span>
+      <span class="cn">海边的曼彻斯特</span>
+    </a>
+
+    <a class="bar" href="web/bladerunner.html">
+      <span class="en">Blade Runner 2049</span>
+      <span class="cn">银翼杀手 2049</span>
+    </a>
+
+    <a class="bar" href="web/mebeforeyou.html">
+      <span class="en">Me Before You</span>
+      <span class="cn">遇见你之前</span>
+    </a>
+
+  </nav>
+
+</body>
+</html>

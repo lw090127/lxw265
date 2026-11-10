@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Me Before You · 遇见你之前</title>
+<style>
+  :root {
+    --ink:   #2b1109;   /* 深酒红（正文） */
+    --ink2:  #1c0a06;   /* 更深的标题色 */
+    --wine:  #6e3534;   /* 酒红（角标） */
+    --cream: #f6ecd9;   /* 米白 */
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+  }
+
+  body {
+    margin: 0;
+    color: var(--ink);
+    font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing: antialiased;
+
+    /* 整页背景：暖光剧照模糊版，固定 */
+    background:
+      linear-gradient(rgba(255, 250, 242, 0.62), rgba(255, 250, 242, 0.62)),
+      url(../image/mby-bg.webp) center center / cover no-repeat fixed;
+  }
+
+  .slide {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    display: grid;
+    place-items: center;
+    padding: 7vh 7vw;
+    overflow: hidden;
+  }
+
+  /* ===== 首屏 ===== */
+  .hero {
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: clamp(30px, 6vw, 90px);
+    padding: 12vh 8vw 8vh;
+  }
+
+  .hero-text { max-width: 620px; transform: rotate(-1deg); }
+
+  .en {
+    margin: 0;
+    font-weight: 900;
+    font-size: clamp(30px, 5.2vw, 82px);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ink2);
+  }
+
+  .cn {
+    margin: 16px 0 0;
+    font-size: clamp(14px, 1.4vw, 19px);
+    font-weight: 700;
+    letter-spacing: 0.5em;
+    color: var(--wine);
+  }
+
+  .poster {
+    width: clamp(200px, 22vw, 310px);
+    transform: rotate(1.6deg);
+    box-shadow: 0 18px 40px rgba(70, 25, 15, 0.32);
+  }
+
+  .poster img { display: block; width: 100%; height: auto; }
+
+  /* ===== 文字 ===== */
+  .intro-slide p {
+    max-width: 820px;
+    margin: 0;
+    font-size: clamp(16px, 1.3vw, 19px);
+    font-weight: 500;
+    line-height: 2.25;
+    transform: rotate(-0.4deg);
+    text-shadow: 0 1px 0 rgba(255, 250, 240, 0.55);
+  }
+
+  .row {
+    width: 100%;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: clamp(28px, 5vw, 76px);
+  }
+
+  .row .txt { max-width: 560px; transform: rotate(-0.9deg); }
+
+  .row .txt h2 {
+    margin: 0 0 18px;
+    font-size: clamp(17px, 1.5vw, 22px);
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: var(--ink2);
+  }
+
+  .row .txt p {
+    margin: 0;
+    font-size: clamp(14px, 1.15vw, 17px);
+    font-weight: 500;
+    line-height: 2.1;
+    color: var(--ink);
+    text-shadow: 0 1px 0 rgba(255, 250, 240, 0.55);
+  }
+
+  /* ===== 图片：科技角标，酒红 ===== */
+  .row figure {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgba(110, 53, 52, 0.45);
+    box-shadow:
+      0 0 18px rgba(110, 53, 52, 0.16),
+      0 22px 44px rgba(70, 25, 15, 0.28);
+    transform: rotate(-1.2deg);
+  }
+
+  .row figure img { display: block; width: 100%; height: auto; }
+
+  .row figure::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    background-image:
+      linear-gradient(var(--wine), var(--wine)), linear-gradient(var(--wine), var(--wine)),
+      linear-gradient(var(--wine), var(--wine)), linear-gradient(var(--wine), var(--wine)),
+      linear-gradient(var(--wine), var(--wine)), linear-gradient(var(--wine), var(--wine)),
+      linear-gradient(var(--wine), var(--wine)), linear-gradient(var(--wine), var(--wine));
+    background-repeat: no-repeat;
+    background-size:
+      28px 2px, 2px 28px,
+      28px 2px, 2px 28px,
+      28px 2px, 2px 28px,
+      28px 2px, 2px 28px;
+    background-position:
+      left top, left top,
+      right top, right top,
+      left bottom, left bottom,
+      right bottom, right bottom;
+  }
+
+  .row figure::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.05) 0 1px,
+      transparent 1px 4px
+    );
+  }
+
+  .row figure.small { max-width: 520px; }
+  .slide.reverse .txt { order: 2; transform: rotate(1deg); }
+  .slide.reverse figure { order: 1; transform: rotate(1.4deg); }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; justify-items: start; gap: 30px; }
+    .poster { width: clamp(170px, 48vw, 250px); }
+    .row { grid-template-columns: 1fr; gap: 22px; }
+    .slide.reverse .txt,
+    .slide.reverse .stack,
+    .slide.reverse figure { order: 0; }
+    .row figure.small { max-width: 100%; }
+    .slide { padding: 6vh 6vw; }
+  }
+</style>
+</head>
+<body>
+
+  <main>
+
+    <!-- 1 -->
+    <section class="slide hero" id="s1">
+      <div class="hero-text">
+        <p class="en">Me Before You</p>
+        <p class="cn">遇见你之前</p>
+      </div>
+      <div class="poster">
+        <img src="../image/mby-poster.jpg" alt="遇见你之前 海报">
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="slide intro-slide" id="s2">
+      <p>
+        2016 年的《遇见你之前》由西娅·夏罗克执导，乔乔·莫伊斯改编自己的同名小说，
+        艾米莉亚·克拉克与山姆·克拉弗林主演。它讲的不只是一段爱情，而是一个更难的问题：
+        爱一个人，能不能替他决定怎么活。
+      </p>
+    </section>
+
+    <!-- 3 -->
+    <section class="slide" id="s3">
+      <div class="row">
+        <div class="txt">
+          <h2>六个月</h2>
+          <p>
+            小露被咖啡馆解雇，家境不好、学历不高，接下了那份没人愿意干的工作：照顾一个四肢瘫痪的病人，合同六个月。
+            威尔·特雷纳曾是热爱旅行和冒险的银行家，一场车祸之后，他变得愤世嫉俗，把自己关在房间里。
+          </p>
+        </div>
+        <figure class="small">
+          <img src="../image/mby-g.jpg" alt="小露站在门口">
+        </figure>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="slide reverse" id="s4">
+      <div class="row">
+        <div class="txt">
+          <h2>她想让他活</h2>
+          <p>
+            她穿得花花绿绿，说些没头没脑的笑话，带他出门、看赛马、听音乐会、参加婚礼。她想让他重新笑出来。
+            他也真的笑了——他开始鼓励她读书、去见识更大的世界。两个人都在把对方从原地拽出来。
+          </p>
+        </div>
+        <figure class="small">
+          <img src="../image/mby-e.jpg" alt="草地上的野餐">
+        </figure>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="slide" id="s5">
+      <div class="row">
+        <div class="txt">
+          <h2>他早已决定</h2>
+          <p>
+            但威尔早就做了决定：再给母亲六个月，然后去瑞士。他要的不是被照顾，是像自己那样活着。
+            小露以为自己能改变他，直到他说：我爱你，但这不改变任何事。爱不是理由，让他以另一种方式活着也不是。
+          </p>
+        </div>
+        <figure>
+          <img src="../image/mby-a.jpg" alt="舞会上的两人">
+        </figure>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="slide reverse" id="s6">
+      <div class="row">
+        <div class="txt">
+          <h2>之后</h2>
+          <p>
+            他留下信和一笔钱，让她去巴黎。她在巴黎的咖啡馆里读那封信——他要她活着，活得精彩。
+            You only get one life. It's actually your duty to live it as fully as possible.
+            这大概是这部电影最温柔也最残忍的地方：他没有为她留下，却把她推了出去。
+          </p>
+        </div>
+        <figure>
+          <img src="../image/mby-h.jpg" alt="音乐会上的两人">
+        </figure>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    (function () {
+      var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+      var last = slides.length - 1;
+      var lock = false;
+
+      function index() {
+        var cur = 0;
+        slides.forEach(function (s, i) {
+          if (s.offsetTop <= window.scrollY + 10) cur = i;
+        });
+        return cur;
+      }
+
+      function goTo(i) { slides[i].scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+
+      function step(dir) {
+        if (lock) return;
+        var next = index() + dir;
+        if (next > last) next = 0;
+        if (next < 0) next = last;
+        lock = true;
+        goTo(next);
+        setTimeout(function () { lock = false; }, 800);
+      }
+
+      document.addEventListener('click', function (e) {
+        if (e.target.closest('a')) return;
+        if (String(window.getSelection()).length > 0) return;
+        step(1);
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+          e.preventDefault(); step(1);
+        } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+          e.preventDefault(); step(-1);
+        }
+      });
+
+      window.addEventListener('wheel', function (e) {
+        if (lock) return;
+        var atTop = window.scrollY <= 2;
+        var atEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+        if (e.deltaY > 0 && atEnd) {
+          lock = true; goTo(0); setTimeout(function () { lock = false; }, 800);
+        } else if (e.deltaY < 0 && atTop) {
+          lock = true; goTo(last); setTimeout(function () { lock = false; }, 800);
+        }
+      }, { passive: true });
+    })();
+  </script>
+
+</body>
+</html>
